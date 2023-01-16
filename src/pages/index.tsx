@@ -32,15 +32,15 @@ type Repo = {
 export default function Home() {
   const [searchKey, setSearchKey] = useInputState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<User>();
+  const [data, setData] = useState<User[]>([]);
   const [repos, setRepos] = useState<Repo[]>([]);
 
   async function submitSearch() {
     setLoading(true);
 
     try {
-      const resp = await axios.get(api + "/users/" + searchKey);
-      setData(resp?.data);
+      const resp = await axios.get(api + "/search/users?q=" + searchKey);
+      setData(resp?.data.items?.slice(0, 5));
       if (resp?.data) {
         const getRepos = await axios.get(
           api + "/users/" + searchKey + "/repos"
@@ -74,12 +74,12 @@ export default function Home() {
           <Text size="sm">Showing users for "{searchKey}"</Text>
         )}
       </Stack>
-      {data !== undefined && (
+      {data?.map((d, i) => (
         <Accordion variant="filled" mt="sm">
-          <Accordion.Item value={data?.id.toString() || "1"} px={0}>
+          <Accordion.Item value={d?.id?.toString() || "1"} px={0}>
             <Accordion.Control>
               <Text weight={600} size="lg">
-                {data?.login || "-"}
+                {d?.login || "-"}
               </Text>
             </Accordion.Control>
             <Accordion.Panel>
@@ -104,7 +104,7 @@ export default function Home() {
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-      )}
+      ))}
     </Container>
   );
 }
