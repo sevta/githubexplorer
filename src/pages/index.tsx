@@ -1,5 +1,6 @@
 import {
   Accordion,
+  Avatar,
   Button,
   Container,
   Flex,
@@ -21,6 +22,7 @@ type User = {
   name: string;
   id: string | number;
   login: string;
+  avatar_url: string;
 } & Record<any, any>;
 
 type Repo = {
@@ -92,9 +94,11 @@ export default function Home() {
         <Accordion variant="filled" mt="sm">
           <Accordion.Item value={d.user?.id?.toString() || "1"} px={0}>
             <Accordion.Control>
-              <Text weight={600} size="lg">
-                {d?.user.login || "-"}
-              </Text>
+              <Flex align="center">
+                <Avatar radius="xl" size="md" mr="md" src={d.user.avatar_url} />
+
+                <Text weight={600}>{d?.user.login || "-"}</Text>
+              </Flex>
             </Accordion.Control>
             <Accordion.Panel>
               <Stack>
