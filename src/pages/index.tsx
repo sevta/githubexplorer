@@ -84,7 +84,7 @@ export default function Home() {
         >
           Search
         </Button>
-        {data !== undefined && (
+        {data.length > 0 && (
           <Text size="sm">Showing users for "{searchKey}"</Text>
         )}
       </Stack>
@@ -98,8 +98,11 @@ export default function Home() {
             </Accordion.Control>
             <Accordion.Panel>
               <Stack>
+                {d.repo.length === 0 && (
+                  <Text>{d.user.login} dont have repo</Text>
+                )}
                 {d.repo?.map((repo, indexRepo: number) => (
-                  <Paper withBorder py="md" px="xs" bg="gray.3">
+                  <Paper withBorder py="md" px="xs" bg="gray.3" key={indexRepo}>
                     <Flex justify="space-between">
                       <Text weight={600}>{repo?.name}</Text>
                       <Group>
