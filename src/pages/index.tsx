@@ -75,15 +75,7 @@ export default function Home() {
         )}
       </Stack>
       {data !== undefined && (
-        <Accordion
-          variant="filled"
-          mt="sm"
-          styles={{
-            content: {
-              paddingInline: 0,
-            },
-          }}
-        >
+        <Accordion variant="filled" mt="sm">
           <Accordion.Item value={data?.id.toString() || "1"} px={0}>
             <Accordion.Control>
               <Text weight={600} size="lg">
